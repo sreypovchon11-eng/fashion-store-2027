@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="km">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="google-site-verification" content="g5IXlqonqttaqCLUtG9AWQWulZILz1jy-dJDybTaRyc" />
+  <meta name="google-site-verification" content="7Eu3wzEOrwjLsD6aoclWklpgyfEURvGSzS5wVjkifoQ" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Digital Library Hub — បណ្ណាឡ័យឌីជីថល</title>
   <!-- Tailwind CSS CDN -->
@@ -28,31 +29,37 @@
   </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Kantumruuy+Pro:ital,wght@0,300..700;1,300..700&display=swap');
+
     body {
       font-family: 'Kantumruuy Pro', system-ui, -apple-system, sans-serif;
     }
+
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
+
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
   </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+<body
+  class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
   <!-- TOP NAVIGATION BAR -->
   <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-      
+
       <!-- Brand Logo -->
       <div class="flex items-center space-x-3 cursor-pointer" onclick="showHomeView()">
         <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
           <i data-lucide="book-open" class="w-6 h-6 text-emerald-600"></i>
         </div>
         <div>
-          <h1 class="font-bold text-base md:text-lg text-slate-900 dark:text-white leading-tight">Digital Library Hub</h1>
+          <h1 class="font-bold text-base md:text-lg text-slate-900 dark:text-white leading-tight">Digital Library Hub
+          </h1>
           <p class="text-xs text-slate-500 hidden sm:block">បណ្ណាឡ័យឌីជីថលសម្រាប់ស្វែងជ្រាវមេរៀន</p>
         </div>
       </div>
@@ -61,22 +68,20 @@
       <div class="flex-1 max-w-xl relative">
         <div class="relative">
           <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-          <input 
-            type="text" 
-            id="globalSearchInput" 
-            placeholder="ស្វែងរកសៀវភៅ, ប្រធានបទ, អ្នកនិពន្ធ..." 
-            class="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-800 rounded-full border-none focus:ring-2 focus:ring-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-400 transition-all"
-          >
+          <input type="text" id="globalSearchInput" placeholder="ស្វែងរកសៀវភៅ, ប្រធានបទ, អ្នកនិពន្ធ..."
+            class="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-800 rounded-full border-none focus:ring-2 focus:ring-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-400 transition-all">
         </div>
 
         <!-- Search Results Dropdown -->
-        <div id="searchResultsDropdown" class="hidden absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden z-50 max-h-96 overflow-y-auto p-2 space-y-2">
+        <div id="searchResultsDropdown"
+          class="hidden absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden z-50 max-h-96 overflow-y-auto p-2 space-y-2">
         </div>
       </div>
 
       <!-- Actions (Theme Toggle & Favorites) -->
       <div class="flex items-center space-x-2">
-        <button id="themeToggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-colors">
+        <button id="themeToggle"
+          class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-colors">
           <span id="themeIcon">🌙</span>
         </button>
       </div>
@@ -85,14 +90,16 @@
 
   <!-- MAIN CONTENT CONTAINER -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    
+
     <!-- HOME VIEW -->
     <div id="homeView" class="space-y-10">
-      
+
       <!-- HERO BANNER -->
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 to-teal-800 p-8 md:p-12 text-white shadow-xl">
+      <div
+        class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 to-teal-800 p-8 md:p-12 text-white shadow-xl">
         <div class="relative z-10 max-w-2xl space-y-4">
-          <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold text-emerald-100 border border-white/20">
+          <span
+            class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold text-emerald-100 border border-white/20">
             ស្វាគមន៍មកកាន់បណ្ណាឡ័យឌីជីថល
           </span>
           <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight">
@@ -102,7 +109,8 @@
             ស្វែងរកឯកសារ Programming, Mathematics, Science និងមុខវិជ្ជាជាច្រើនទៀតសម្រាប់ការអភិវឌ្ឍសមត្ថភាពរបស់អ្នក។
           </p>
         </div>
-        <div class="absolute right-0 bottom-0 top-0 w-1/3 opacity-10 pointer-events-none flex items-center justify-center">
+        <div
+          class="absolute right-0 bottom-0 top-0 w-1/3 opacity-10 pointer-events-none flex items-center justify-center">
           <i data-lucide="book-open-check" class="w-72 h-72"></i>
         </div>
       </div>
@@ -119,7 +127,8 @@
       <section>
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-lg md:text-xl font-bold text-slate-900 dark:text-white">ទើបមើលថ្មីៗ (Recently Viewed)</h3>
-          <button onclick="switchCategory('Programming')" class="text-sm text-emerald-600 dark:text-emerald-400 font-bold hover:underline">
+          <button onclick="switchCategory('Programming')"
+            class="text-sm text-emerald-600 dark:text-emerald-400 font-bold hover:underline">
             មើលទាំងអស់ →
           </button>
         </div>
@@ -130,7 +139,8 @@
       <section>
         <div class="flex items-center space-x-2 mb-6">
           <i data-lucide="flame" class="w-5 h-5 text-orange-500 fill-orange-500"></i>
-          <h3 class="text-lg md:text-xl font-bold text-slate-900 dark:text-white">ទទួលបានការពេញនិយម (Popular Resources)</h3>
+          <h3 class="text-lg md:text-xl font-bold text-slate-900 dark:text-white">ទទួលបានការពេញនិយម (Popular Resources)
+          </h3>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5" id="popularBooksGrid"></div>
       </section>
@@ -138,25 +148,34 @@
 
     <!-- CATEGORY DETAIL VIEW -->
     <div id="categoryView" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <button onclick="showHomeView()" class="flex items-center space-x-2 text-slate-600 dark:text-slate-300 hover:text-emerald-600 transition-colors w-fit">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <button onclick="showHomeView()"
+          class="flex items-center space-x-2 text-slate-600 dark:text-slate-300 hover:text-emerald-600 transition-colors w-fit">
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
           <span class="text-sm font-bold">ត្រឡប់ទៅទំព័រដើម</span>
         </button>
 
         <div class="flex items-center justify-between sm:justify-end gap-3">
           <h2 id="categoryViewTitle" class="text-xl font-extrabold text-slate-900 dark:text-white"></h2>
-          
+
           <div class="relative">
-            <button id="filterBtn" class="flex items-center space-x-2 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-sm">
+            <button id="filterBtn"
+              class="flex items-center space-x-2 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-sm">
               <i data-lucide="filter" class="w-4 h-4"></i>
               <span>តម្រងវាយតម្លៃ</span>
             </button>
 
-            <div id="filterDropdown" class="hidden absolute right-0 mt-2 w-44 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 py-1.5 z-50 text-xs">
-              <button onclick="setFilter('all')" class="w-full text-left px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-200">ទាំងអស់</button>
-              <button onclick="setFilter('4+')" class="w-full text-left px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-200">★ 4.0 ឡើងទៅ</button>
-              <button onclick="setFilter('3+')" class="w-full text-left px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-200">★ 3.0 ឡើងទៅ</button>
+            <div id="filterDropdown"
+              class="hidden absolute right-0 mt-2 w-44 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 py-1.5 z-50 text-xs">
+              <button onclick="setFilter('all')"
+                class="w-full text-left px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-200">ទាំងអស់</button>
+              <button onclick="setFilter('4+')"
+                class="w-full text-left px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-200">★
+                4.0 ឡើងទៅ</button>
+              <button onclick="setFilter('3+')"
+                class="w-full text-left px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-200">★
+                3.0 ឡើងទៅ</button>
             </div>
           </div>
         </div>
@@ -167,14 +186,19 @@
   </main>
 
   <!-- BOOK DETAIL MODAL OVERLAY -->
-  <div id="bookDetailModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-200 dark:border-slate-800">
-      
+  <div id="bookDetailModal"
+    class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div
+      class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-200 dark:border-slate-800">
+
       <!-- Modal Header -->
-      <div class="relative h-48 bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-900 p-6 flex flex-col justify-between">
+      <div
+        class="relative h-48 bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-900 p-6 flex flex-col justify-between">
         <div class="flex justify-between items-center z-10">
-          <span id="modalCategoryBadge" class="text-xs bg-emerald-500/30 text-emerald-100 border border-emerald-400/30 px-3 py-1 rounded-full font-medium backdrop-blur-md"></span>
-          <button id="closeDetailBtn" class="w-9 h-9 rounded-full bg-black/20 hover:bg-black/40 text-white flex items-center justify-center backdrop-blur-md transition-colors">
+          <span id="modalCategoryBadge"
+            class="text-xs bg-emerald-500/30 text-emerald-100 border border-emerald-400/30 px-3 py-1 rounded-full font-medium backdrop-blur-md"></span>
+          <button id="closeDetailBtn"
+            class="w-9 h-9 rounded-full bg-black/20 hover:bg-black/40 text-white flex items-center justify-center backdrop-blur-md transition-colors">
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
@@ -189,10 +213,13 @@
 
       <!-- Modal Body -->
       <div class="pt-10 p-6 overflow-y-auto flex-1 space-y-6">
-        <div class="grid grid-cols-3 gap-4 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 text-center">
+        <div
+          class="grid grid-cols-3 gap-4 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 text-center">
           <div>
             <p class="text-xs uppercase font-semibold text-slate-400">ការវាយតម្លៃ</p>
-            <p id="modalRating" class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center justify-center gap-1 mt-1 text-amber-500"></p>
+            <p id="modalRating"
+              class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center justify-center gap-1 mt-1 text-amber-500">
+            </p>
           </div>
           <div class="border-x border-slate-200 dark:border-slate-700">
             <p class="text-xs uppercase font-semibold text-slate-400">ទំហំឯកសារ</p>
@@ -205,15 +232,18 @@
         </div>
 
         <div>
-          <h4 class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">សេចក្ដីសង្ខេប</h4>
+          <h4 class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+            សេចក្ដីសង្ខេប</h4>
           <p id="modalSubtitle" class="text-base font-medium text-slate-800 dark:text-slate-200 mt-1"></p>
           <p id="modalDescription" class="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed"></p>
         </div>
       </div>
 
       <!-- Modal Footer -->
-      <div class="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-3">
-        <button id="downloadBtn" class="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20 transition-all">
+      <div
+        class="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-3">
+        <button id="downloadBtn"
+          class="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20 transition-all">
           <i data-lucide="download" class="w-4 h-4"></i>
           <span>ទាញយកឯកសារ</span>
         </button>
@@ -321,13 +351,13 @@
     function renderCategoryBooks() {
       const container = document.getElementById('categoryBooksGrid');
       let filtered = ALL_BOOKS.filter(b => b.category === currentSelectedCategory);
-      
+
       if (currentRatingFilter === '4+') filtered = filtered.filter(b => b.rating >= 4.0);
       if (currentRatingFilter === '3+') filtered = filtered.filter(b => b.rating >= 3.0);
 
       document.getElementById('categoryViewTitle').innerText = `${currentSelectedCategory} Resources`;
 
-      if(filtered.length === 0) {
+      if (filtered.length === 0) {
         container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-sm">មិនមានឯកសារត្រូវតាមតម្រងដែលបានជ្រើសរើសទេ។</div>`;
         return;
       }
@@ -363,7 +393,7 @@
 
     function openBookDetail(id) {
       const book = ALL_BOOKS.find(b => b.id === id);
-      if(!book) return;
+      if (!book) return;
 
       document.getElementById('modalBookCover').innerHTML = createCoverHTML(book, 'normal');
       document.getElementById('modalTitle').innerText = book.title;
@@ -390,15 +420,15 @@
     document.getElementById('globalSearchInput').addEventListener('input', (e) => {
       const query = e.target.value.toLowerCase().trim();
       const dropdown = document.getElementById('searchResultsDropdown');
-      
+
       if (!query) {
         dropdown.classList.add('hidden');
         return;
       }
 
-      const results = ALL_BOOKS.filter(b => 
-        b.title.toLowerCase().includes(query) || 
-        b.author.toLowerCase().includes(query) || 
+      const results = ALL_BOOKS.filter(b =>
+        b.title.toLowerCase().includes(query) ||
+        b.author.toLowerCase().includes(query) ||
         b.category.toLowerCase().includes(query)
       );
 
@@ -443,7 +473,7 @@
       document.getElementById('bookDetailModal').classList.add('hidden');
     });
 
-    document.getElementById('downloadBtn').addEventListener('click', function() {
+    document.getElementById('downloadBtn').addEventListener('click', function () {
       this.classList.replace('bg-emerald-600', 'bg-emerald-950');
       this.innerHTML = '<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i><span>បានទាញយកដោយជោគជ័យ</span>';
       lucide.createIcons();
@@ -456,6 +486,5 @@
     lucide.createIcons();
   </script>
 </body>
+
 </html>
-
-
