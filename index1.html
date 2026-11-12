@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="https://example.com/your-logo.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏨</text></svg>">
+  <head>
+  <meta charset="UTF-8">
+  <title>StayEaseHotel</title>
+ 
+</head>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230F172A'/%3E%3Crect x='4' y='4' width='56' height='56' rx='13' fill='none' stroke='%23D97706' stroke-width='2.5'/%3E%3Cpath d='M20 46V22l12-6 12 6v24H20z' fill='%23065F46' stroke='%23FBBF24' stroke-width='2'/%3E%3Cpath d='M27 46v-9h10v9M25 27h4v4h-4zm10 0h4v4h-4zm-10 7h4v4h-4zm10 0h4v4h-4z' fill='%23FDE68A'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            navy: {
+              800: '#162436',
+              900: '#0F172A',
+              950: '#090E1A',
+            },
+            emerald: {
+              700: '#047857',
+              800: '#065F46',
+              900: '#064E3B',
+            },
+            sand: {
+              50: '#FAF8F5',
+              100: '#F3EFEA',
+              200: '#E7E0D6',
+              300: '#D5CBBF',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FAF8F5;
+      color: #0F172A;
+    }
+    /* Crisp High-DPI Image Rendering */
+    .crisp-photo {
+      image-rendering: -webkit-optimize-contrast;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .room-card:hover .crisp-photo {
+      transform: scale(1.04);
+    }
+   
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #065F46;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      margin-top: -6px;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: #E7E0D6;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-emerald-800 selection:text-white">
+
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+ 
+  <header class="sticky top-0 z-40 bg-navy-900/95 backdrop-blur-md text-white border-b border-white/10 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center justify-between h-auto py-3 md:h-20 md:py-0 gap-3">
+       
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('explore')">
+          <div class="w-11 h-11 rounded-2xl bg-navy-950 flex items-center justify-center shadow-inner border-2 border-amber-400/80 relative overflow-hidden">
+            
+            <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 26V11l9-5 9 5v15H7z" fill="#065F46" stroke="#FBBF24" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M13 26v-6h6v6" fill="#FDE68A"/>
+              <rect x="11" y="13" width="3" height="3" rx="0.5" fill="#FDE68A"/>
+              <rect x="18" y="13" width="3" height="3" rx="0.5" fill="#FDE68A"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white">StayEase</span>
+            <span class="block text-[10px] uppercase tracking-[0.2em] text-amber-400 font-semibold -mt-1">Boutique Hotel & Suites</span>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex items-center bg-navy-950/80 p-1.5 rounded-2xl border border-white/10 overflow-x-auto max-w-full">
+          <button id="nav-explore" onclick="switchTab('explore')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap bg-emerald-800 text-white shadow">
+            <i data-lucide="compass" class="w-4 h-4"></i>
+            <span>Explore Rooms</span>
+          </button>
+          <button id="nav-bookings" onclick="switchTab('bookings')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition-all whitespace-nowrap">
+            <i data-lucide="calendar-check" class="w-4 h-4"></i>
+            <span>My Bookings</span>
+            <span id="badge-bookings-count" class="ml-1 px-2 py-0.5 text-xs rounded-full bg-emerald-600/30 text-emerald-300 border border-emerald-500/30">0</span>
+          </button>
+          <button id="nav-admin" onclick="switchTab('admin')" class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition-all whitespace-nowrap">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Admin Dashboard</span>
+          </button>
+        </nav>
+
+        <!-- Demo Reset Utility -->
+        <div class="hidden lg:flex items-center gap-3">
+          <button onclick="openResetConfirm()" class="text-xs text-slate-400 hover:text-sand-100 flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-white/5 transition" title="Reset Demo Data">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <span>Reset Demo</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow">
+
+    <!-- ==========================================
+         VIEW 1: EXPLORE ROOMS (GUEST VIEW)
+    =========================================== -->
+    <section id="view-explore" class="block">
+      <!-- Crisp High-Resolution Hero Banner -->
+      <div class="relative bg-navy-900 text-white overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=90"
+          alt="StayEase Hotel Resort Architecture & Pool"
+          class="absolute inset-0 w-full h-full object-cover object-center crisp-photo opacity-55"
+          onerror="this.style.display='none'"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-900/75 to-navy-950/45"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-24 md:pt-20 md:pb-28">
+          <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-950/75 backdrop-blur-md border border-amber-400/40 text-amber-300 text-xs font-semibold mb-4 shadow">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span>Crisp Comfort • Affordable Stays Starting at $25/Night</span>
+            </div>
+            <h1 class="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight drop-shadow-sm">
+              Curated Rooms & Suites Designed for Effortless Relaxation.
+            </h1>
+            <p class="mt-4 text-slate-200 text-base sm:text-lg max-w-2xl leading-relaxed">
+              Inspect every suite in crystal-clear HD detail, read verified guest reviews, and enjoy instant promo savings at checkout.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Search & Filter Bar -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-20">
+        <div class="bg-white rounded-3xl shadow-xl border border-sand-200 p-5 sm:p-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+            
+            <!-- Check-in Date -->
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Check-In</label>
+              <input type="date" id="filter-checkin" onchange="handleSearchFilter()" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm font-medium text-navy-900 focus:outline-none focus:ring-2 focus:ring-emerald-700" />
+            </div>
+
+            <!-- Check-out Date -->
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Check-Out</label>
+              <input type="date" id="filter-checkout" onchange="handleSearchFilter()" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm font-medium text-navy-900 focus:outline-none focus:ring-2 focus:ring-emerald-700" />
+            </div>
+
+            <!-- Guests Count -->
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Guests</label>
+              <select id="filter-guests" onchange="handleSearchFilter()" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm font-medium text-navy-900 focus:outline-none focus:ring-2 focus:ring-emerald-700">
+                <option value="1" selected>1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4 Guests</option>
+                <option value="6">Up to 6 Guests</option>
+              </select>
+            </div>
+
+            <!-- Room Type Filter -->
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Room Category</label>
+              <select id="filter-type" onchange="handleSearchFilter()" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm font-medium text-navy-900 focus:outline-none focus:ring-2 focus:ring-emerald-700">
+                <option value="All">All Categories</option>
+                <option value="Standard">Standard</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Suite">Suite</option>
+                <option value="Villa">Loft & Penthouse</option>
+              </select>
+            </div>
+
+            <!-- Max Price Slider ($20 - $150) -->
+            <div>
+              <div class="flex justify-between items-center mb-1.5">
+                <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Max Rate</label>
+                <span id="filter-price-label" class="text-sm font-bold text-emerald-800">$150/nt</span>
+              </div>
+              <input type="range" id="filter-price" min="20" max="150" step="5" value="150" oninput="handleSearchFilter()" class="w-full accent-emerald-800" />
+            </div>
+
+          </div>
+
+          <!-- Filter Summary Strip -->
+          <div class="mt-4 pt-4 border-t border-sand-100 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
+            <div class="flex items-center gap-2">
+              <span id="rooms-result-count" class="font-semibold text-navy-900">Showing 6 accommodations</span>
+              <span>•</span>
+              <span id="stay-duration-preview" class="text-emerald-800 font-medium">2 nights selected</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="filter-available-only" onchange="handleSearchFilter()" class="rounded text-emerald-800 focus:ring-emerald-700" />
+                <span class="font-medium text-slate-700">Available rooms only</span>
+              </label>
+              <button onclick="resetFilters()" class="text-emerald-800 hover:underline font-semibold">Clear Filters</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
+        <div id="rooms-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        </div>
+
+     
+        <div id="rooms-empty" class="hidden text-center py-16 bg-white rounded-3xl border border-sand-200 shadow-sm">
+          <div class="w-16 h-16 bg-sand-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-400">
+            <i data-lucide="search-x" class="w-8 h-8"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-navy-900">No rooms match your criteria</h3>
+          <p class="text-slate-500 text-sm mt-1 max-w-md mx-auto">Try increasing your maximum nightly budget or clearing category filters.</p>
+          <button onclick="resetFilters()" class="mt-5 px-5 py-2.5 bg-navy-900 text-white text-sm font-medium rounded-xl hover:bg-navy-800 transition">
+            Reset Search Filters
+          </button>
+        </div>
+      </div>
+
+   
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-white rounded-3xl border border-sand-200 p-6 sm:p-8 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-sand-100">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">Verified Guest Impressions</span>
+              <h2 class="font-serif text-2xl sm:text-3xl font-bold text-navy-900 mt-1">Loved by Travelers Worldwide</h2>
+            </div>
+            <div class="flex items-center gap-3 bg-sand-50 px-4 py-3 rounded-2xl border border-sand-200">
+              <div class="text-3xl font-bold text-navy-900" id="overall-property-rating">4.9</div>
+              <div>
+                <div class="flex items-center gap-0.5 text-amber-400">
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                </div>
+                <span class="text-xs text-slate-500 font-medium" id="overall-review-count">Based on verified stays</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="featured-reviews-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+ 
+    <section id="view-bookings" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h2 class="font-serif text-3xl font-bold text-navy-900">My Reservations</h2>
+          <p class="text-slate-600 text-sm mt-1">Manage your upcoming stays, modify dates, or review booking confirmations.</p>
+        </div>
+        <button onclick="switchTab('explore')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white text-sm font-medium rounded-xl shadow-sm transition self-start sm:self-auto">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Book Another Stay</span>
+        </button>
+      </div>
+
+      <div id="my-bookings-list" class="space-y-5">
+      
+      </div>
+    </section>
+
+   
+    <section id="view-admin" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <div class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>Property Operations Portal</span>
+          </div>
+          <h2 class="font-serif text-3xl font-bold text-navy-900">Admin Dashboard</h2>
+          <p class="text-slate-600 text-sm mt-1">Real-time occupancy analytics, dynamic room pricing, promo codes, and reservation controls.</p>
+        </div>
+        <button onclick="openAddRoomModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-navy-900 hover:bg-navy-800 text-white text-sm font-medium rounded-xl shadow-sm transition self-start sm:self-auto">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <span>Add New Room</span>
+        </button>
+      </div>
+
+  
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+        <div class="bg-white p-6 rounded-2xl border border-sand-200 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Revenue</span>
+            <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center">
+              <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <p id="kpi-revenue" class="text-2xl sm:text-3xl font-bold text-navy-900 mt-3">$0</p>
+          <p class="text-xs text-emerald-700 font-medium mt-1">Confirmed & Checked-In stays</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-sand-200 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Occupancy Rate</span>
+            <div class="w-9 h-9 rounded-xl bg-navy-900/5 text-navy-900 flex items-center justify-center">
+              <i data-lucide="pie-chart" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <p id="kpi-occupancy" class="text-2xl sm:text-3xl font-bold text-navy-900 mt-3">0%</p>
+          <div class="w-full bg-sand-100 h-1.5 rounded-full mt-2 overflow-hidden">
+            <div id="kpi-occupancy-bar" class="bg-emerald-700 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-sand-200 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Active Bookings</span>
+            <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
+              <i data-lucide="calendar-range" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <p id="kpi-active-bookings" class="text-2xl sm:text-3xl font-bold text-navy-900 mt-3">0</p>
+          <p class="text-xs text-slate-500 mt-1">Upcoming & in-house guests</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-sand-200 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Available Rooms</span>
+            <div class="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center">
+              <i data-lucide="key-round" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <p id="kpi-available-rooms" class="text-2xl sm:text-3xl font-bold text-navy-900 mt-3">0 / 0</p>
+          <p class="text-xs text-slate-500 mt-1">Ready for immediate check-in</p>
+        </div>
+      </div>
+
+   
+      <div class="bg-white rounded-3xl border border-sand-200 shadow-sm overflow-hidden mb-10">
+        <div class="px-6 py-5 border-b border-sand-200 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-navy-900">Room Inventory & Pricing</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Toggle room availability or adjust nightly rates in real time.</p>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-sand-50 border-b border-sand-200 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <th class="py-3.5 px-6">Room / Suite</th>
+                <th class="py-3.5 px-4">Category</th>
+                <th class="py-3.5 px-4">Capacity</th>
+                <th class="py-3.5 px-4">Nightly Rate</th>
+                <th class="py-3.5 px-4">Status</th>
+                <th class="py-3.5 px-6 text-right">Quick Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-rooms-tbody" class="divide-y divide-sand-100 text-sm">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    
+      <div class="bg-white rounded-3xl border border-sand-200 shadow-sm overflow-hidden mb-10">
+        <div class="px-6 py-5 border-b border-sand-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-navy-900">Promo Codes & Discounts</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Create percentage discount codes guests can apply during checkout.</p>
+          </div>
+          <form onsubmit="handleCreatePromo(event)" class="flex flex-wrap items-center gap-2">
+            <input type="text" id="new-promo-code" required placeholder="CODE (e.g. SUMMER15)" maxlength="15" class="px-3 py-2 bg-sand-50 border border-sand-200 rounded-xl text-xs font-mono uppercase text-navy-900 focus:outline-none focus:ring-2 focus:ring-emerald-700" />
+            <input type="number" id="new-promo-discount" required min="5" max="80" placeholder="% Off" class="w-24 px-3 py-2 bg-sand-50 border border-sand-200 rounded-xl text-xs text-navy-900 focus:outline-none focus:ring-2 focus:ring-emerald-700" />
+            <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-semibold transition">
+              + Add Promo
+            </button>
+          </form>
+        </div>
+        <div id="admin-promos-list" class="p-6 flex flex-wrap gap-3">
+        
+        </div>
+      </div>
+
+  
+      <div class="bg-white rounded-3xl border border-sand-200 shadow-sm overflow-hidden">
+        <div class="px-6 py-5 border-b border-sand-200">
+          <h3 class="font-serif text-xl font-bold text-navy-900">Reservation Log</h3>
+          <p class="text-xs text-slate-500 mt-0.5">Update guest stay statuses (Confirmed, Checked-In, or Cancelled).</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-sand-50 border-b border-sand-200 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <th class="py-3.5 px-6">Booking ID</th>
+                <th class="py-3.5 px-4">Guest</th>
+                <th class="py-3.5 px-4">Accommodation</th>
+                <th class="py-3.5 px-4">Stay Dates</th>
+                <th class="py-3.5 px-4">Total</th>
+                <th class="py-3.5 px-6 text-right">Reservation Status</th>
+              </tr>
+            </thead>
+            <tbody id="admin-bookings-tbody" class="divide-y divide-sand-100 text-sm">
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer class="bg-navy-950 text-slate-400 border-t border-white/10 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <i data-lucide="building-2" class="w-5 h-5 text-amber-400"></i>
+        <span class="font-serif text-white font-bold">StayEase Hotel</span>
+        <span class="text-xs text-slate-500">• High-Definition Hospitality Suite</span>
+      </div>
+      <p class="text-xs text-slate-500 text-center sm:text-right">
+        Interactive Booking & Property Management Simulation • State persisted locally in your browser.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       MODAL 1: FULL-SCREEN HD PHOTO LIGHTBOX VIEWER
+  =========================================== -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-navy-950/90 backdrop-blur-md p-4 sm:p-6 overflow-y-auto" onclick="if(event.target === this) closeLightbox()">
+    <div class="bg-navy-900 rounded-3xl max-w-4xl w-full shadow-2xl border border-white/15 overflow-hidden my-auto">
+      <!-- Top Bar -->
+      <div class="px-6 py-4 flex items-center justify-between border-b border-white/10 text-white">
+        <div class="flex items-center gap-3">
+          <span id="lb-category" class="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-emerald-800/80 text-emerald-200 border border-emerald-500/30">Suite</span>
+          <h3 id="lb-title" class="font-serif text-xl sm:text-2xl font-bold">Room Name</h3>
+        </div>
+        <button onclick="closeLightbox()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition" title="Close HD Preview">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- High-Resolution Photo Canvas -->
+      <div class="relative bg-black flex items-center justify-center max-h-[65vh] overflow-hidden">
+        <img id="lb-image" src="" alt="High Definition Room View" class="w-full max-h-[65vh] object-cover crisp-photo" />
+        <div class="absolute bottom-3 right-3 px-3 py-1 rounded-lg bg-navy-950/75 backdrop-blur-md border border-white/15 text-[11px] text-amber-300 font-semibold flex items-center gap-1.5">
+          <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+          <span>HD 1200px Verified View</span>
+        </div>
+      </div>
+
+      <!-- Details & Instant Booking Footer -->
+      <div class="p-6 bg-navy-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="space-y-2">
+          <p id="lb-desc" class="text-sm text-slate-300 max-w-2xl"></p>
+          <div id="lb-amenities" class="flex flex-wrap gap-1.5"></div>
+        </div>
+        <div class="flex items-center justify-between sm:justify-end gap-4 shrink-0 border-t sm:border-t-0 border-white/10 pt-4 sm:pt-0">
+          <div class="text-left sm:text-right">
+            <span id="lb-price" class="text-2xl font-bold text-white">$55</span>
+            <span class="text-xs text-slate-400 block">/ night</span>
+          </div>
+          <button id="lb-book-btn" class="px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-sm shadow-lg transition flex items-center gap-2">
+            <span>Book This Room</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: BOOK NOW / MODIFY RESERVATION MODAL
+  =========================================== -->
+  <div id="booking-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-navy-950/75 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-sand-200 overflow-hidden my-8">
+      <div class="bg-navy-900 text-white px-6 py-5 flex items-center justify-between">
+        <div>
+          <span id="modal-booking-subtitle" class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Complete Your Reservation</span>
+          <h3 id="modal-booking-title" class="font-serif text-2xl font-bold mt-0.5">Deluxe Queen</h3>
+        </div>
+        <button onclick="closeBookingModal()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="booking-form" onsubmit="submitBooking(event)" class="p-6 space-y-5">
+        <input type="hidden" id="booking-room-id" />
+        <input type="hidden" id="booking-edit-id" />
+
+        <!-- Dates & Guests Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Check-In</label>
+            <input type="date" id="modal-checkin" required onchange="recalculateBookingPrice()" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm font-medium text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Check-Out</label>
+            <input type="date" id="modal-checkout" required onchange="recalculateBookingPrice()" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm font-medium text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Guests</label>
+            <select id="modal-guests" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm font-medium text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none">
+              <option value="1">1 Guest</option>
+              <option value="2" selected>2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+              <option value="5">5 Guests</option>
+              <option value="6">6 Guests</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Guest Information -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Full Name</label>
+            <input type="text" id="modal-guest-name" required placeholder="e.g. Sophia Laurent" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Email Address</label>
+            <input type="email" id="modal-guest-email" required placeholder="sophia@example.com" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Promo Code Section -->
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Promo Code</label>
+          <div class="flex gap-2">
+            <input type="text" id="modal-promo-input" placeholder="Enter promo code (e.g. WELCOME10)" class="flex-grow px-3.5 py-2 bg-sand-50 border border-sand-200 rounded-xl text-sm font-mono uppercase text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+            <button type="button" onclick="applyPromoCode()" class="px-4 py-2 rounded-xl bg-navy-900 hover:bg-navy-800 text-white text-xs font-semibold transition">
+              Apply
+            </button>
+          </div>
+          <div id="promo-chips-container" class="flex flex-wrap items-center gap-1.5 mt-2">
+            <!-- Clickable promo chips populated dynamically -->
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Special Requests (Optional)</label>
+          <input type="text" id="modal-requests" placeholder="Late check-in, extra pillows, airport pickup..." class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+        </div>
+
+        <!-- Automatic Price Breakdown Card -->
+        <div class="bg-sand-50 rounded-2xl p-4 border border-sand-200 space-y-2 text-sm">
+          <div class="flex justify-between text-slate-600">
+            <span id="calc-rate-label">$55 × 2 nights</span>
+            <span id="calc-subtotal" class="font-medium text-navy-900">$110.00</span>
+          </div>
+          <div id="calc-discount-row" class="hidden flex justify-between text-emerald-700 font-medium">
+            <span id="calc-discount-label">Promo Discount (10%)</span>
+            <span id="calc-discount-amount">-$11.00</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>Hospitality Taxes & Resort Fee (12%)</span>
+            <span id="calc-taxes" class="font-medium text-navy-900">$13.20</span>
+          </div>
+          <div class="pt-2 border-t border-sand-200 flex justify-between items-center text-base font-bold text-navy-900">
+            <span>Total Due</span>
+            <span id="calc-total" class="text-xl text-emerald-800">$123.20</span>
+          </div>
+        </div>
+
+        <div id="modal-date-error" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium">
+          Check-out date must be at least 1 night after check-in date.
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="closeBookingModal()" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-sand-100 transition">
+            Cancel
+          </button>
+          <button type="submit" id="modal-submit-btn" class="px-6 py-2.5 rounded-xl text-sm font-semibold bg-emerald-800 hover:bg-emerald-900 text-white shadow-md transition flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span>Confirm Reservation</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 3: GUEST REVIEWS & RATINGS MODAL
+  =========================================== -->
+  <div id="reviews-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-navy-950/75 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-sand-200 overflow-hidden my-8">
+      <div class="bg-navy-900 text-white px-6 py-5 flex items-center justify-between">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-amber-400 font-semibold">Verified Guest Feedback</span>
+          <h3 id="reviews-modal-title" class="font-serif text-2xl font-bold mt-0.5">Deluxe Queen Reviews</h3>
+        </div>
+        <button onclick="closeReviewsModal()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+        <!-- Existing Reviews List -->
+        <div id="reviews-modal-list" class="space-y-4">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Write a Review Form -->
+        <form onsubmit="submitRoomReview(event)" class="bg-sand-50 p-5 rounded-2xl border border-sand-200 space-y-4">
+          <input type="hidden" id="review-room-id" />
+          <h4 class="font-serif text-lg font-bold text-navy-900">Share Your Stay Experience</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Your Name</label>
+              <input type="text" id="review-author" required placeholder="e.g. Dara Sok" class="w-full px-3.5 py-2 bg-white border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Star Rating</label>
+              <div id="star-selector" class="flex items-center gap-1.5 py-1.5">
+                <!-- Interactive stars rendered via JS -->
+              </div>
+              <input type="hidden" id="review-rating-value" value="5" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Review Comment</label>
+            <textarea id="review-comment" rows="2" required placeholder="Tell future guests about the room clarity, comfort, and service..." class="w-full px-3.5 py-2 bg-white border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none"></textarea>
+          </div>
+          <div class="flex justify-end">
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-semibold transition">
+              Post Verified Review
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 4: ADD NEW ROOM MODAL (ADMIN)
+  =========================================== -->
+  <div id="add-room-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-navy-950/75 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-sand-200 overflow-hidden my-8">
+      <div class="bg-navy-900 text-white px-6 py-5 flex items-center justify-between">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Inventory Management</span>
+          <h3 class="font-serif text-xl font-bold mt-0.5">Add New Accommodation</h3>
+        </div>
+        <button onclick="closeAddRoomModal()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleAddRoom(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Room / Suite Name</label>
+          <input type="text" id="new-room-name" required placeholder="e.g. Emerald Horizon Studio" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Category</label>
+            <select id="new-room-category" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none">
+              <option value="Standard">Standard</option>
+              <option value="Deluxe" selected>Deluxe</option>
+              <option value="Suite">Suite</option>
+              <option value="Villa">Loft / Penthouse</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Nightly Rate ($)</label>
+            <input type="number" id="new-room-price" required min="15" max="500" value="65" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Max Guests</label>
+            <input type="number" id="new-room-guests" required min="1" max="10" value="2" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Size (sq ft)</label>
+            <input type="number" id="new-room-size" required min="150" max="5000" value="440" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">High-Resolution Photo URL</label>
+          <input type="url" id="new-room-image" required value="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=90" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Amenities (comma-separated)</label>
+          <input type="text" id="new-room-amenities" required value="City Balcony, Queen Bed, Rain Shower, Fast Wi-Fi" class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Description</label>
+          <textarea id="new-room-desc" rows="2" required class="w-full px-3.5 py-2.5 bg-sand-50 border border-sand-200 rounded-xl text-sm text-navy-900 focus:ring-2 focus:ring-emerald-700 focus:outline-none">Sunlit modern room featuring crisp Egyptian cotton bedding, panoramic windows, and a rain shower.</textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="closeAddRoomModal()" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-sand-100 transition">Cancel</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-navy-900 hover:bg-navy-800 text-white transition">Add Room to Inventory</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 5: CUSTOM CONFIRMATION DIALOG
+  =========================================== -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-navy-950/75 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-sand-200">
+      <div class="flex items-center gap-3 text-amber-600 mb-3">
+        <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        </div>
+        <h3 id="confirm-title" class="font-serif text-xl font-bold text-navy-900">Confirm Action</h3>
+      </div>
+      <p id="confirm-message" class="text-sm text-slate-600 leading-relaxed mb-6">Are you sure you want to proceed?</p>
+      <div class="flex justify-end gap-3">
+        <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-sand-100 transition">Keep as Is</button>
+        <button id="confirm-action-btn" class="px-5 py-2 rounded-xl text-sm font-semibold bg-red-600 hover:bg-red-700 text-white shadow-sm transition">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       APPLICATION LOGIC & STATE MANAGEMENT
+  =========================================== -->
+  <script>
+    const STORAGE_KEYS = {
+      ROOMS: 'stayease_rooms_hd_v1',
+      BOOKINGS: 'stayease_bookings_hd_v1',
+      PROMOS: 'stayease_promos_hd_v1'
+    };
+
+    const FALLBACK_IMAGE = 'https://placehold.co/1200x800/0F172A/FAF8F5?text=StayEase+Hotel+Suite';
+
+    function getRelativeDate(daysOffset) {
+      const date = new Date();
+      date.setDate(date.getDate() + daysOffset);
+      return date.toISOString().split('T')[0];
+    }
+
+    // Affordable Rooms ($25 to $110/night) with Verified High-Resolution 1200px Unsplash Photography
+    const DEFAULT_ROOMS = [
+      {
+        id: 'rm-101',
+        name: 'Cozy Single',
+        category: 'Standard',
+        price: 25,
+        maxGuests: 1,
+        size: 260,
+        available: true,
+        image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1200&q=90',
+        amenities: ['Plush Single Bed', 'Smart TV', 'Work Desk', 'Free Wi-Fi'],
+        description: 'Bright, tranquil solo traveler sanctuary with warm natural wood finishes, blackout drapes, and high-speed fiber internet.',
+        reviews: [
+          { author: 'Sokha Chan', rating: 5, date: '2026-10-18', comment: 'Super clean, bright, and unbeatable value at $25/night!' },
+          { author: 'Liam O’Connor', rating: 4.8, date: '2026-09-29', comment: 'Quiet room with fast Wi-Fi and very comfortable mattress.' }
+        ]
+      },
+      {
+        id: 'rm-102',
+        name: 'Standard Twin',
+        category: 'Standard',
+        price: 38,
+        maxGuests: 2,
+        size: 340,
+        available: true,
+        image: 'https://images.unsplash.com/photo-1595576508898-0ad5c879a061?auto=format&fit=crop&w=1200&q=90',
+        amenities: ['Two Twin Beds', 'Rain Shower', 'Artisan Tea', 'Air Conditioning'],
+        description: 'Crisp modern twin accommodation designed for friends or colleagues, featuring acoustic insulation and sunlit windows.',
+        reviews: [
+          { author: 'Maya Lin', rating: 4.9, date: '2026-10-22', comment: 'Spotless twin beds and great natural light in the morning.' }
+        ]
+      },
+      {
+        id: 'rm-103',
+        name: 'Deluxe Queen',
+        category: 'Deluxe',
+        price: 55,
+        maxGuests: 2,
+        size: 420,
+        available: true,
+        image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=90',
+        amenities: ['Queen Bed', 'City Balcony', 'Espresso Bar', 'Marble Bath'],
+        description: 'Elevated comfort featuring a bespoke upholstered queen bed, private Juliet balcony, and spa-inspired limestone bath.',
+        reviews: [
+          { author: 'Elena Rostova', rating: 5.0, date: '2026-11-01', comment: 'The room looks exactly like the HD photos—warm lighting and super cozy!' },
+          { author: 'David Kim', rating: 4.8, date: '2026-10-12', comment: 'Loved the espresso bar and balcony breeze.' }
+        ]
+      },
+      {
+        id: 'rm-104',
+        name: 'Garden Suite',
+        category: 'Suite',
+        price: 75,
+        maxGuests: 3,
+        size: 580,
+        available: true,
+        image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=90',
+        amenities: ['Garden Terrace', 'King Bed', 'Lounge Sofa', 'Soaking Tub'],
+        description: 'Spacious corner suite overlooking lush courtyard greenery, complete with a reading parlor and deep soaking tub.',
+        reviews: [
+          { author: 'Clara & Thomas', rating: 4.95, date: '2026-10-27', comment: 'Waking up to the garden view was magical. Worth every dollar.' }
+        ]
+      },
+      {
+        id: 'rm-105',
+        name: 'Family Loft',
+        category: 'Villa',
+        price: 90,
+        maxGuests: 4,
+        size: 760,
+        available: false,
+        image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=90',
+        amenities: ['2 Sleeping Areas', 'Kitchenette', 'Dining Table', 'Pool Access'],
+        description: 'Open-plan two-zone family retreat with generous living space, pantry kitchenette, and direct walkway to the pool.',
+        reviews: [
+          { author: 'The Nguyen Family', rating: 5.0, date: '2026-10-15', comment: 'Plenty of room for our kids and very clean modern layout.' }
+        ]
+      },
+      {
+        id: 'rm-106',
+        name: 'Royal Penthouse',
+        category: 'Villa',
+        price: 110,
+        maxGuests: 6,
+        size: 1120,
+        available: true,
+        image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=90',
+        amenities: ['Panoramic Terrace', 'King Master + Guest', 'Private Bar', 'VIP Lounge'],
+        description: 'Crowning the top floor with floor-to-ceiling skyline vistas, wraparound terrace seating, and signature suite service.',
+        reviews: [
+          { author: 'Marcus Sterling', rating: 5.0, date: '2026-11-04', comment: 'Five-star penthouse luxury at an incredible rate. Unmatched views!' }
+        ]
+      }
+    ];
+
+    const DEFAULT_PROMOS = [
+      { code: 'WELCOME10', discount: 10, label: '10% Off First Stay' },
+      { code: 'STAY25', discount: 25, label: '25% Weekend Special' },
+      { code: 'VIP20', discount: 20, label: '20% VIP Member' }
+    ];
+
+    const DEFAULT_BOOKINGS = [
+      {
+        id: 'SE-4821',
+        roomId: 'rm-105',
+        roomName: 'Family Loft',
+        guestName: 'Elena & Marcus Vance',
+        guestEmail: 'elena.vance@example.com',
+        checkIn: getRelativeDate(1),
+        checkOut: getRelativeDate(4),
+        guests: 4,
+        nights: 3,
+        nightlyRate: 90,
+        promoCode: 'WELCOME10',
+        discountPercent: 10,
+        totalPaid: 272.16,
+        status: 'Confirmed',
+        requests: 'Extra crib requested for toddler'
+      }
+    ];
+
+    // State Variables
+    let rooms = [];
+    let bookings = [];
+    let promos = [];
+    let activeAppliedPromo = null;
+
+    function initState() {
+      try {
+        const savedRooms = localStorage.getItem(STORAGE_KEYS.ROOMS);
+        const savedBookings = localStorage.getItem(STORAGE_KEYS.BOOKINGS);
+        const savedPromos = localStorage.getItem(STORAGE_KEYS.PROMOS);
+
+        rooms = savedRooms ? JSON.parse(savedRooms) : JSON.parse(JSON.stringify(DEFAULT_ROOMS));
+        bookings = savedBookings ? JSON.parse(savedBookings) : JSON.parse(JSON.stringify(DEFAULT_BOOKINGS));
+        promos = savedPromos ? JSON.parse(savedPromos) : JSON.parse(JSON.stringify(DEFAULT_PROMOS));
+        saveState();
+      } catch (e) {
+        rooms = JSON.parse(JSON.stringify(DEFAULT_ROOMS));
+        bookings = JSON.parse(JSON.stringify(DEFAULT_BOOKINGS));
+        promos = JSON.parse(JSON.stringify(DEFAULT_PROMOS));
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.ROOMS, JSON.stringify(rooms));
+        localStorage.setItem(STORAGE_KEYS.BOOKINGS, JSON.stringify(bookings));
+        localStorage.setItem(STORAGE_KEYS.PROMOS, JSON.stringify(promos));
+      } catch (e) {
+        console.error('Storage error:', e);
+      }
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bgClass = type === 'success' ? 'bg-navy-900 border-emerald-500/40 text-white' : 'bg-red-900 border-red-400/40 text-white';
+      const iconName = type === 'success' ? 'check-circle-2' : 'alert-circle';
+      const iconColor = type === 'success' ? 'text-emerald-400' : 'text-red-300';
+
+      toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3.5 rounded-2xl border shadow-xl text-sm font-medium transition-all duration-300 transform translate-y-2 opacity-0 ${bgClass}`;
+      toast.innerHTML = `<i data-lucide="${iconName}" class="w-5 h-5 ${iconColor} shrink-0"></i><span>${message}</span>`;
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function switchTab(tabName) {
+      ['explore', 'bookings', 'admin'].forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`nav-${t}`);
+        if (t === tabName) {
+          view.classList.remove('hidden');
+          btn.classList.add('bg-emerald-800', 'text-white', 'shadow');
+          btn.classList.remove('text-slate-300', 'hover:text-white');
+        } else {
+          view.classList.add('hidden');
+          btn.classList.remove('bg-emerald-800', 'text-white', 'shadow');
+          btn.classList.add('text-slate-300', 'hover:text-white');
+        }
+      });
+      renderAll();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function calculateNights(checkInStr, checkOutStr) {
+      if (!checkInStr || !checkOutStr) return 1;
+      const diffTime = new Date(checkOutStr) - new Date(checkInStr);
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    function getRoomAverageRating(room) {
+      if (!room.reviews || room.reviews.length === 0) return 4.9;
+      const sum = room.reviews.reduce((acc, r) => acc + Number(r.rating), 0);
+      return sum / room.reviews.length;
+    }
+
+    // ==========================================
+    // FULL-SCREEN HD PHOTO LIGHTBOX VIEWER
+    // ==========================================
+    function openLightbox(roomId) {
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+
+      document.getElementById('lb-category').textContent = room.category;
+      document.getElementById('lb-title').textContent = room.name;
+      const imgEl = document.getElementById('lb-image');
+      imgEl.src = room.image;
+      imgEl.onerror = () => { imgEl.src = FALLBACK_IMAGE; };
+      document.getElementById('lb-desc').textContent = room.description;
+      document.getElementById('lb-price').textContent = `$${room.price}`;
+
+      document.getElementById('lb-amenities').innerHTML = room.amenities.map(a =>
+        `<span class="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-medium">${a}</span>`
+      ).join('');
+
+      const bookBtn = document.getElementById('lb-book-btn');
+      if (room.available) {
+        bookBtn.disabled = false;
+        bookBtn.className = 'px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg transition flex items-center gap-2';
+        bookBtn.innerHTML = `<span>Book This Room</span><i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+        bookBtn.onclick = () => {
+          closeLightbox();
+          openBookingModal(room.id);
+        };
+      } else {
+        bookBtn.disabled = true;
+        bookBtn.className = 'px-6 py-3 rounded-xl bg-slate-700 text-slate-400 font-semibold text-sm cursor-not-allowed flex items-center gap-2';
+        bookBtn.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i><span>Currently Booked</span>`;
+      }
+
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // ==========================================
+    // RENDER: EXPLORE ROOMS & REVIEWS
+    // ==========================================
+    function handleSearchFilter() {
+      const priceVal = document.getElementById('filter-price').value;
+      document.getElementById('filter-price-label').textContent = `$${Number(priceVal)}/nt`;
+
+      const checkIn = document.getElementById('filter-checkin').value;
+      const checkOut = document.getElementById('filter-checkout').value;
+      const nights = calculateNights(checkIn, checkOut);
+      const durationEl = document.getElementById('stay-duration-preview');
+
+      if (nights > 0) {
+        durationEl.textContent = `${nights} night${nights > 1 ? 's' : ''} selected`;
+        durationEl.className = 'text-emerald-800 font-medium';
+      } else {
+        durationEl.textContent = 'Select valid check-out date';
+        durationEl.className = 'text-red-600 font-medium';
+      }
+
+      renderExploreRooms();
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-checkin').value = getRelativeDate(2);
+      document.getElementById('filter-checkout').value = getRelativeDate(4);
+      document.getElementById('filter-guests').value = '1';
+      document.getElementById('filter-type').value = 'All';
+      document.getElementById('filter-price').value = '150';
+      document.getElementById('filter-available-only').checked = false;
+      handleSearchFilter();
+    }
+
+    function renderExploreRooms() {
+      const grid = document.getElementById('rooms-grid');
+      const emptyState = document.getElementById('rooms-empty');
+      const countLabel = document.getElementById('rooms-result-count');
+
+      const guestFilter = parseInt(document.getElementById('filter-guests').value, 10);
+      const typeFilter = document.getElementById('filter-type').value;
+      const maxPriceFilter = parseInt(document.getElementById('filter-price').value, 10);
+      const availableOnly = document.getElementById('filter-available-only').checked;
+
+      const filtered = rooms.filter(room => {
+        if (room.maxGuests < guestFilter) return false;
+        if (typeFilter !== 'All' && room.category !== typeFilter) return false;
+        if (room.price > maxPriceFilter) return false;
+        if (availableOnly && !room.available) return false;
+        return true;
+      });
+
+      countLabel.textContent = `Showing ${filtered.length} accommodation${filtered.length === 1 ? '' : 's'}`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.innerHTML = filtered.map(room => {
+        const avgRating = getRoomAverageRating(room).toFixed(2);
+        const reviewCount = room.reviews ? room.reviews.length : 0;
+
+        const statusBadge = room.available
+          ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-navy-950/75 text-emerald-300 border border-emerald-400/40 backdrop-blur-md">
+               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Available
+             </span>`
+          : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-navy-950/80 text-rose-300 border border-rose-400/40 backdrop-blur-md">
+               <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Booked
+             </span>`;
+
+        const amenitiesHtml = room.amenities.map(item =>
+          `<span class="px-2.5 py-1 rounded-lg bg-sand-100 text-slate-700 text-xs font-medium">${item}</span>`
+        ).join('');
+
+        const actionBtn = room.available
+          ? `<button onclick="openBookingModal('${room.id}')" class="w-full py-3 px-4 rounded-xl bg-navy-900 hover:bg-emerald-800 text-white font-semibold text-sm transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm">
+               <span>Book Now</span>
+               <i data-lucide="arrow-right" class="w-4 h-4"></i>
+             </button>`
+          : `<button disabled class="w-full py-3 px-4 rounded-xl bg-sand-200 text-slate-500 font-semibold text-sm cursor-not-allowed flex items-center justify-center gap-2">
+               <i data-lucide="lock" class="w-4 h-4"></i>
+               <span>Currently Occupied</span>
+             </button>`;
+
+        return `
+          <article class="room-card bg-white rounded-3xl border border-sand-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group">
+            <!-- Ultra-Crisp High-Resolution Photo Container -->
+            <div onclick="openLightbox('${room.id}')" class="relative h-60 bg-navy-900 overflow-hidden cursor-zoom-in">
+              <img
+                src="${room.image}"
+                alt="${room.name}"
+                loading="lazy"
+                onerror="this.src='${FALLBACK_IMAGE}'"
+                class="w-full h-full object-cover object-center crisp-photo"
+              />
+              <!-- Clean Subtle Vignette for Badge Legibility -->
+              <div class="absolute inset-0 bg-gradient-to-t from-navy-950/65 via-transparent to-navy-950/35 pointer-events-none"></div>
+
+              <!-- Top Badges -->
+              <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-navy-950/75 text-white backdrop-blur-md border border-white/15">
+                  ${room.category}
+                </span>
+                ${statusBadge}
+              </div>
+
+              <!-- Bottom HD Lightbox Trigger & Rating Pill -->
+              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                <button type="button" onclick="event.stopPropagation(); openLightbox('${room.id}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/95 hover:bg-white text-navy-900 text-xs font-semibold shadow-md transition">
+                  <i data-lucide="zoom-in" class="w-3.5 h-3.5 text-emerald-700"></i>
+                  <span>View HD Photo</span>
+                </button>
+
+                <button type="button" onclick="event.stopPropagation(); openReviewsModal('${room.id}')" class="flex items-center gap-1 bg-navy-950/80 hover:bg-navy-950 backdrop-blur-md px-2.5 py-1.5 rounded-xl border border-white/15 text-xs font-semibold text-white transition">
+                  <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
+                  <span>${avgRating}</span>
+                  <span class="text-slate-300">(${reviewCount})</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Room Body -->
+            <div class="p-6 flex-grow flex flex-col justify-between">
+              <div>
+                <div class="flex items-start justify-between gap-2">
+                  <h3 class="font-serif text-xl font-bold text-navy-900 group-hover:text-emerald-800 transition-colors">${room.name}</h3>
+                </div>
+
+                <div class="flex items-center gap-4 text-xs text-slate-500 mt-2 font-medium">
+                  <span class="flex items-center gap-1"><i data-lucide="users" class="w-3.5 h-3.5 text-emerald-700"></i> Up to ${room.maxGuests} Guest${room.maxGuests > 1 ? 's' : ''}</span>
+                  <span class="flex items-center gap-1"><i data-lucide="maximize-2" class="w-3.5 h-3.5 text-emerald-700"></i> ${room.size} sq ft</span>
+                </div>
+
+                <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+                  ${room.description}
+                </p>
+
+                <div class="flex flex-wrap gap-1.5 mt-4">
+                  ${amenitiesHtml}
+                </div>
+              </div>
+
+              <!-- Price & CTA -->
+              <div class="mt-6 pt-4 border-t border-sand-100">
+                <div class="flex items-baseline justify-between mb-3">
+                  <div>
+                    <span class="text-2xl font-bold text-navy-900">$${room.price}</span>
+                    <span class="text-xs text-slate-500 font-medium">/ night</span>
+                  </div>
+                  <button type="button" onclick="openReviewsModal('${room.id}')" class="text-xs text-emerald-800 hover:underline font-semibold">
+                    Read Reviews
+                  </button>
+                </div>
+                ${actionBtn}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      renderFeaturedReviews();
+      lucide.createIcons();
+    }
+
+    function renderFeaturedReviews() {
+      const container = document.getElementById('featured-reviews-grid');
+      const allReviews = [];
+      rooms.forEach(room => {
+        (room.reviews || []).forEach(rev => {
+          allReviews.push({ ...rev, roomName: room.name, roomId: room.id });
+        });
+      });
+
+      if (allReviews.length > 0) {
+        const avg = (allReviews.reduce((s, r) => s + Number(r.rating), 0) / allReviews.length).toFixed(2);
+        document.getElementById('overall-property-rating').textContent = avg;
+        document.getElementById('overall-review-count').textContent = `Based on ${allReviews.length} verified stays`;
+      }
+
+      container.innerHTML = allReviews.slice(0, 3).map(rev => `
+        <div class="bg-sand-50 rounded-2xl p-5 border border-sand-200 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-lg bg-emerald-800/10 text-emerald-900 text-xs font-semibold">${rev.roomName}</span>
+              <span class="flex items-center gap-1 text-xs font-bold text-navy-900">
+                <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i> ${Number(rev.rating).toFixed(1)}
+              </span>
+            </div>
+            <p class="text-sm text-slate-700 italic leading-relaxed">"${rev.comment}"</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-sand-200/70 flex items-center justify-between text-xs text-slate-500">
+            <span class="font-semibold text-navy-900">${rev.author}</span>
+            <span>${rev.date}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==========================================
+    // GUEST REVIEWS MODAL
+    // ==========================================
+    function openReviewsModal(roomId) {
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+
+      document.getElementById('review-room-id').value = room.id;
+      document.getElementById('reviews-modal-title').textContent = `${room.name} — Reviews`;
+      setStarRating(5);
+      renderReviewsList(room);
+
+      const modal = document.getElementById('reviews-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeReviewsModal() {
+      const modal = document.getElementById('reviews-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function renderReviewsList(room) {
+      const listEl = document.getElementById('reviews-modal-list');
+      const reviews = room.reviews || [];
+      if (reviews.length === 0) {
+        listEl.innerHTML = `<p class="text-sm text-slate-500 text-center py-4">No reviews yet. Be the first to review this room!</p>`;
+        return;
+      }
+      listEl.innerHTML = reviews.map(r => `
+        <div class="p-4 rounded-2xl bg-white border border-sand-200 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-sm text-navy-900">${r.author}</span>
+            <div class="flex items-center gap-1 text-xs font-bold text-amber-600">
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i>
+              <span>${Number(r.rating).toFixed(1)}</span>
+              <span class="text-slate-400 font-normal ml-1">• ${r.date}</span>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 mt-2">${r.comment}</p>
+        </div>
+      `).join('');
+    }
+
+    function setStarRating(val) {
+      document.getElementById('review-rating-value').value = val;
+      const container = document.getElementById('star-selector');
+      container.innerHTML = [1, 2, 3, 4, 5].map(num => `
+        <button type="button" onclick="setStarRating(${num})" class="p-1 focus:outline-none">
+          <i data-lucide="star" class="w-5 h-5 ${num <= val ? 'text-amber-400 fill-amber-400' : 'text-slate-300'}"></i>
+        </button>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function submitRoomReview(event) {
+      event.preventDefault();
+      const roomId = document.getElementById('review-room-id').value;
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+
+      const author = document.getElementById('review-author').value.trim();
+      const rating = parseInt(document.getElementById('review-rating-value').value, 10);
+      const comment = document.getElementById('review-comment').value.trim();
+
+      if (!room.reviews) room.reviews = [];
+      room.reviews.unshift({
+        author,
+        rating,
+        date: getRelativeDate(0),
+        comment
+      });
+
+      saveState();
+      event.target.reset();
+      setStarRating(5);
+      renderReviewsList(room);
+      renderAll();
+      showToast(`Thank you, ${author}! Your review has been published.`);
+    }
+
+    // ==========================================
+    // BOOKING MODAL & PROMO CODE DISCOUNTS
+    // ==========================================
+    function openBookingModal(roomId, editBookingId = null) {
+      const modal = document.getElementById('booking-modal');
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+
+      document.getElementById('booking-room-id').value = room.id;
+      document.getElementById('booking-edit-id').value = editBookingId || '';
+      activeAppliedPromo = null;
+      document.getElementById('modal-promo-input').value = '';
+
+      // Render clickable promo chips
+      document.getElementById('promo-chips-container').innerHTML = promos.map(p => `
+        <button type="button" onclick="selectPromoChip('${p.code}')" class="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-[11px] font-mono font-semibold transition">
+          ${p.code} (${p.discount}% OFF)
+        </button>
+      `).join('');
+
+      if (editBookingId) {
+        const existing = bookings.find(b => b.id === editBookingId);
+        if (!existing) return;
+        document.getElementById('modal-booking-subtitle').textContent = `Modify Reservation • ${existing.id}`;
+        document.getElementById('modal-booking-title').textContent = room.name;
+        document.getElementById('modal-checkin').value = existing.checkIn;
+        document.getElementById('modal-checkout').value = existing.checkOut;
+        document.getElementById('modal-guests').value = existing.guests;
+        document.getElementById('modal-guest-name').value = existing.guestName;
+        document.getElementById('modal-guest-email').value = existing.guestEmail;
+        document.getElementById('modal-requests').value = existing.requests || '';
+        if (existing.promoCode) {
+          document.getElementById('modal-promo-input').value = existing.promoCode;
+          activeAppliedPromo = { code: existing.promoCode, discount: existing.discountPercent || 0 };
+        }
+        document.getElementById('modal-submit-btn').innerHTML = `<i data-lucide="save" class="w-4 h-4"></i><span>Save Changes</span>`;
+      } else {
+        document.getElementById('modal-booking-subtitle').textContent = 'Complete Your Reservation';
+        document.getElementById('modal-booking-title').textContent = room.name;
+        document.getElementById('modal-checkin').value = document.getElementById('filter-checkin').value || getRelativeDate(2);
+        document.getElementById('modal-checkout').value = document.getElementById('filter-checkout').value || getRelativeDate(4);
+        document.getElementById('modal-guests').value = Math.min(parseInt(document.getElementById('filter-guests').value, 10) || 1, room.maxGuests);
+        document.getElementById('modal-guest-name').value = '';
+        document.getElementById('modal-guest-email').value = '';
+        document.getElementById('modal-requests').value = '';
+        document.getElementById('modal-submit-btn').innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i><span>Confirm Reservation</span>`;
+      }
+
+      recalculateBookingPrice();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('booking-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function selectPromoChip(code) {
+      document.getElementById('modal-promo-input').value = code;
+      applyPromoCode();
+    }
+
+    function applyPromoCode() {
+      const codeInput = document.getElementById('modal-promo-input').value.trim().toUpperCase();
+      if (!codeInput) {
+        activeAppliedPromo = null;
+        recalculateBookingPrice();
+        return;
+      }
+      const found = promos.find(p => p.code.toUpperCase() === codeInput);
+      if (!found) {
+        showToast(`Promo code "${codeInput}" is invalid or expired.`, 'error');
+        activeAppliedPromo = null;
+      } else {
+        activeAppliedPromo = found;
+        showToast(`Applied ${found.code} for ${found.discount}% off!`);
+      }
+      recalculateBookingPrice();
+    }
+
+    function recalculateBookingPrice() {
+      const roomId = document.getElementById('booking-room-id').value;
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+
+      const checkIn = document.getElementById('modal-checkin').value;
+      const checkOut = document.getElementById('modal-checkout').value;
+      const nights = calculateNights(checkIn, checkOut);
+
+      const errorBanner = document.getElementById('modal-date-error');
+      const submitBtn = document.getElementById('modal-submit-btn');
+
+      if (nights <= 0) {
+        errorBanner.classList.remove('hidden');
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        return;
+      }
+
+      errorBanner.classList.add('hidden');
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+      const subtotal = room.price * nights;
+      const discountPercent = activeAppliedPromo ? activeAppliedPromo.discount : 0;
+      const discountAmount = subtotal * (discountPercent / 100);
+      const discountedSubtotal = subtotal - discountAmount;
+      const taxes = discountedSubtotal * 0.12;
+      const total = discountedSubtotal + taxes;
+
+      document.getElementById('calc-rate-label').textContent = `$${room.price} × ${nights} night${nights > 1 ? 's' : ''}`;
+      document.getElementById('calc-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+
+      const discountRow = document.getElementById('calc-discount-row');
+      if (discountPercent > 0) {
+        discountRow.classList.remove('hidden');
+        document.getElementById('calc-discount-label').textContent = `Promo ${activeAppliedPromo.code} (${discountPercent}% Off)`;
+        document.getElementById('calc-discount-amount').textContent = `-$${discountAmount.toFixed(2)}`;
+      } else {
+        discountRow.classList.add('hidden');
+      }
+
+      document.getElementById('calc-taxes').textContent = `$${taxes.toFixed(2)}`;
+      document.getElementById('calc-total').textContent = `$${total.toFixed(2)}`;
+    }
+
+    function submitBooking(event) {
+      event.preventDefault();
+      const roomId = document.getElementById('booking-room-id').value;
+      const editId = document.getElementById('booking-edit-id').value;
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+
+      const checkIn = document.getElementById('modal-checkin').value;
+      const checkOut = document.getElementById('modal-checkout').value;
+      const nights = calculateNights(checkIn, checkOut);
+      if (nights <= 0) return;
+
+      const guests = parseInt(document.getElementById('modal-guests').value, 10);
+      const guestName = document.getElementById('modal-guest-name').value.trim();
+      const guestEmail = document.getElementById('modal-guest-email').value.trim();
+      const requests = document.getElementById('modal-requests').value.trim();
+
+      const subtotal = room.price * nights;
+      const discountPercent = activeAppliedPromo ? activeAppliedPromo.discount : 0;
+      const discountedSubtotal = subtotal * (1 - discountPercent / 100);
+      const totalPaid = +(discountedSubtotal * 1.12).toFixed(2);
+
+      if (editId) {
+        const idx = bookings.findIndex(b => b.id === editId);
+        if (idx !== -1) {
+          bookings[idx] = {
+            ...bookings[idx],
+            checkIn,
+            checkOut,
+            guests,
+            nights,
+            nightlyRate: room.price,
+            promoCode: activeAppliedPromo ? activeAppliedPromo.code : null,
+            discountPercent,
+            totalPaid,
+            guestName,
+            guestEmail,
+            requests
+          };
+          showToast(`Reservation ${editId} updated successfully.`);
+        }
+      } else {
+        const randomCode = Math.floor(1000 + Math.random() * 9000);
+        const newBooking = {
+          id: `SE-${randomCode}`,
+          roomId: room.id,
+          roomName: room.name,
+          guestName,
+          guestEmail,
+          checkIn,
+          checkOut,
+          guests,
+          nights,
+          nightlyRate: room.price,
+          promoCode: activeAppliedPromo ? activeAppliedPromo.code : null,
+          discountPercent,
+          totalPaid,
+          status: 'Confirmed',
+          requests
+        };
+        bookings.unshift(newBooking);
+        room.available = false;
+        showToast(`Booking ${newBooking.id} confirmed for ${room.name}!`);
+      }
+
+      saveState();
+      closeBookingModal();
+      renderAll();
+      if (!editId) switchTab('bookings');
+    }
+
+    // ==========================================
+    // RENDER: MY BOOKINGS VIEW
+    // ==========================================
+    function renderMyBookings() {
+      const container = document.getElementById('my-bookings-list');
+      const activeCount = bookings.filter(b => b.status !== 'Cancelled').length;
+      document.getElementById('badge-bookings-count').textContent = activeCount;
+
+      if (bookings.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-3xl border border-sand-200 p-12 text-center shadow-sm">
+            <div class="w-16 h-16 rounded-2xl bg-sand-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="calendar-off" class="w-8 h-8"></i>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-navy-900">No reservations yet</h3>
+            <p class="text-slate-500 text-sm mt-1 max-w-md mx-auto">Explore our rooms and suites to plan your next stay.</p>
+            <button onclick="switchTab('explore')" class="mt-5 px-6 py-2.5 bg-emerald-800 text-white text-sm font-semibold rounded-xl hover:bg-emerald-900 transition">
+              Explore Rooms
+            </button>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = bookings.map(booking => {
+        const room = rooms.find(r => r.id === booking.roomId);
+        const thumbUrl = room ? room.image : FALLBACK_IMAGE;
+
+        let statusStyle = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+        if (booking.status === 'Checked-In') statusStyle = 'bg-blue-50 text-blue-800 border-blue-200';
+        if (booking.status === 'Cancelled') statusStyle = 'bg-rose-50 text-rose-700 border-rose-200';
+
+        const isCancelled = booking.status === 'Cancelled';
+
+        return `
+          <div class="bg-white rounded-3xl border border-sand-200 p-5 sm:p-6 shadow-sm hover:shadow-md transition flex flex-col lg:flex-row lg:items-center justify-between gap-6 ${isCancelled ? 'opacity-75' : ''}">
+            <div class="flex flex-col sm:flex-row gap-5 flex-grow">
+              <!-- Crisp Room Thumbnail -->
+              <img src="${thumbUrl}" alt="${booking.roomName}" onerror="this.src='${FALLBACK_IMAGE}'" class="w-full sm:w-36 h-28 rounded-2xl object-cover crisp-photo shrink-0 border border-sand-200" />
+
+              <div class="space-y-2.5">
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <span class="px-3 py-1 rounded-lg bg-navy-900 text-white text-xs font-mono font-semibold tracking-wider">${booking.id}</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-semibold border ${statusStyle}">${booking.status}</span>
+                  ${booking.promoCode ? `<span class="px-2.5 py-0.5 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 text-xs font-mono font-semibold">${booking.promoCode} (-${booking.discountPercent}%)</span>` : ''}
+                </div>
+
+                <div>
+                  <h3 class="font-serif text-xl font-bold text-navy-900">${booking.roomName}</h3>
+                  <p class="text-sm text-slate-600">Reserved for <span class="font-semibold text-navy-900">${booking.guestName}</span> (${booking.guestEmail})</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-5 text-xs sm:text-sm text-slate-700">
+                  <span><strong>Check-in:</strong> ${booking.checkIn}</span>
+                  <span><strong>Check-out:</strong> ${booking.checkOut}</span>
+                  <span>${booking.nights} Night${booking.nights > 1 ? 's' : ''} • ${booking.guests} Guest${booking.guests > 1 ? 's' : ''}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-row lg:flex-col items-center lg:items-end justify-between border-t lg:border-t-0 pt-4 lg:pt-0 border-sand-100 gap-4 shrink-0">
+              <div class="lg:text-right">
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold block">Total Paid (incl. tax)</span>
+                <span class="text-2xl font-bold text-navy-900">$${booking.totalPaid.toFixed(2)}</span>
+              </div>
+
+              ${!isCancelled ? `
+                <div class="flex items-center gap-2">
+                  <button onclick="openBookingModal('${booking.roomId}', '${booking.id}')" class="px-4 py-2 rounded-xl border border-sand-300 hover:bg-sand-100 text-navy-900 text-xs font-semibold transition flex items-center gap-1.5">
+                    <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                    <span>Modify</span>
+                  </button>
+                  <button onclick="confirmCancelBooking('${booking.id}')" class="px-4 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold transition flex items-center gap-1.5">
+                    <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+                    <span>Cancel</span>
+                  </button>
+                </div>
+              ` : `<span class="text-xs text-slate-400 italic">Room released to inventory</span>`}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function confirmCancelBooking(bookingId) {
+      openConfirmModal(
+        'Cancel Reservation?',
+        `Are you sure you want to cancel booking ${bookingId}? This will immediately release the room back into available inventory.`,
+        () => {
+          const booking = bookings.find(b => b.id === bookingId);
+          if (booking) {
+            booking.status = 'Cancelled';
+            const room = rooms.find(r => r.id === booking.roomId);
+            if (room) room.available = true;
+            saveState();
+            renderAll();
+            showToast(`Reservation ${bookingId} cancelled and room released.`);
+          }
+        }
+      );
+    }
+
+    // ==========================================
+    // RENDER: ADMIN DASHBOARD VIEW
+    // ==========================================
+    function renderAdminDashboard() {
+      const validBookings = bookings.filter(b => b.status !== 'Cancelled');
+      const totalRevenue = validBookings.reduce((sum, b) => sum + b.totalPaid, 0);
+      const totalRoomsCount = rooms.length;
+      const availableRoomsCount = rooms.filter(r => r.available).length;
+      const occupiedRoomsCount = totalRoomsCount - availableRoomsCount;
+      const occupancyRate = totalRoomsCount > 0 ? Math.round((occupiedRoomsCount / totalRoomsCount) * 100) : 0;
+
+      document.getElementById('kpi-revenue').textContent = `$${totalRevenue.toFixed(2)}`;
+      document.getElementById('kpi-occupancy').textContent = `${occupancyRate}%`;
+      document.getElementById('kpi-occupancy-bar').style.width = `${occupancyRate}%`;
+      document.getElementById('kpi-active-bookings').textContent = validBookings.length;
+      document.getElementById('kpi-available-rooms').textContent = `${availableRoomsCount} / ${totalRoomsCount}`;
+
+      // Room Inventory Table with Crisp Thumbnails
+      const roomsTbody = document.getElementById('admin-rooms-tbody');
+      roomsTbody.innerHTML = rooms.map(room => `
+        <tr class="hover:bg-sand-50/70 transition">
+          <td class="py-4 px-6">
+            <div class="flex items-center gap-3">
+              <img src="${room.image}" alt="${room.name}" onclick="openLightbox('${room.id}')" onerror="this.src='${FALLBACK_IMAGE}'" class="w-14 h-10 rounded-lg object-cover crisp-photo cursor-zoom-in border border-sand-200 shrink-0" />
+              <div>
+                <div class="font-semibold text-navy-900">${room.name}</div>
+                <div class="text-xs text-slate-400">${room.size} sq ft • ID: ${room.id}</div>
+              </div>
+            </div>
+          </td>
+          <td class="py-4 px-4">
+            <span class="px-2.5 py-1 rounded-lg bg-sand-100 text-slate-700 text-xs font-medium">${room.category}</span>
+          </td>
+          <td class="py-4 px-4 text-slate-600 font-medium">${room.maxGuests} Guest${room.maxGuests > 1 ? 's' : ''}</td>
+          <td class="py-4 px-4">
+            <div class="inline-flex items-center gap-1 bg-sand-50 border border-sand-200 rounded-xl px-2.5 py-1">
+              <span class="text-slate-400 text-xs">$</span>
+              <input
+                type="number"
+                min="10"
+                max="5000"
+                value="${room.price}"
+                onchange="updateRoomPrice('${room.id}', this.value)"
+                class="w-16 bg-transparent font-semibold text-navy-900 text-sm focus:outline-none"
+              />
+              <span class="text-slate-400 text-xs">/nt</span>
+            </div>
+          </td>
+          <td class="py-4 px-4">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${room.available ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200'}">
+              <span class="w-1.5 h-1.5 rounded-full ${room.available ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
+              ${room.available ? 'Available' : 'Occupied'}
+            </span>
+          </td>
+          <td class="py-4 px-6 text-right">
+            <button
+              onclick="toggleRoomAvailability('${room.id}')"
+              class="px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition ${room.available ? 'border-slate-300 text-slate-700 hover:bg-slate-100' : 'border-emerald-700 bg-emerald-800 text-white hover:bg-emerald-900'}"
+            >
+              ${room.available ? 'Mark Occupied' : 'Set Available'}
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Render Promo Codes
+      document.getElementById('admin-promos-list').innerHTML = promos.map(p => `
+        <div class="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-sand-50 border border-sand-200 text-xs">
+          <span class="font-mono font-bold text-navy-900">${p.code}</span>
+          <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-semibold">${p.discount}% OFF</span>
+          <button onclick="deletePromoCode('${p.code}')" class="text-slate-400 hover:text-red-600 transition" title="Remove Promo">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      `).join('');
+
+      // Render Reservations Log
+      const bookingsTbody = document.getElementById('admin-bookings-tbody');
+      if (bookings.length === 0) {
+        bookingsTbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 text-sm">No reservations recorded.</td></tr>`;
+      } else {
+        bookingsTbody.innerHTML = bookings.map(b => `
+          <tr class="hover:bg-sand-50/70 transition">
+            <td class="py-4 px-6 font-mono text-xs font-bold text-navy-900">${b.id}</td>
+            <td class="py-4 px-4">
+              <div class="font-medium text-navy-900">${b.guestName}</div>
+              <div class="text-xs text-slate-400">${b.guestEmail}</div>
+            </td>
+            <td class="py-4 px-4 font-medium text-slate-700">${b.roomName}</td>
+            <td class="py-4 px-4 text-xs text-slate-600">
+              <div>${b.checkIn} → ${b.checkOut}</div>
+              <div class="text-slate-400">${b.nights} night${b.nights > 1 ? 's' : ''} • ${b.guests} guests</div>
+            </td>
+            <td class="py-4 px-4 font-bold text-navy-900">$${b.totalPaid.toFixed(2)}</td>
+            <td class="py-4 px-6 text-right">
+              <select
+                onchange="updateBookingStatus('${b.id}', this.value)"
+                class="px-3 py-1.5 rounded-xl text-xs font-semibold border border-sand-300 bg-white text-navy-900 focus:outline-none focus:ring-2 focus:ring-emerald-700"
+              >
+                <option value="Confirmed" ${b.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                <option value="Checked-In" ${b.status === 'Checked-In' ? 'selected' : ''}>Checked-In</option>
+                <option value="Cancelled" ${b.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function handleCreatePromo(event) {
+      event.preventDefault();
+      const code = document.getElementById('new-promo-code').value.trim().toUpperCase();
+      const discount = parseInt(document.getElementById('new-promo-discount').value, 10);
+      if (!code || isNaN(discount)) return;
+
+      if (promos.some(p => p.code === code)) {
+        showToast(`Promo code ${code} already exists.`, 'error');
+        return;
+      }
+
+      promos.push({ code, discount, label: `${discount}% Off` });
+      saveState();
+      event.target.reset();
+      renderAdminDashboard();
+      lucide.createIcons();
+      showToast(`Created promo code ${code} (${discount}% OFF).`);
+    }
+
+    function deletePromoCode(code) {
+      promos = promos.filter(p => p.code !== code);
+      saveState();
+      renderAdminDashboard();
+      lucide.createIcons();
+      showToast(`Removed promo code ${code}.`);
+    }
+
+    function toggleRoomAvailability(roomId) {
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+      room.available = !room.available;
+      saveState();
+      renderAll();
+      showToast(`${room.name} marked as ${room.available ? 'Available' : 'Occupied'}.`);
+    }
+
+    function updateRoomPrice(roomId, newPriceVal) {
+      const parsed = parseFloat(newPriceVal);
+      if (isNaN(parsed) || parsed < 10) {
+        showToast('Please enter a valid nightly rate ($10 minimum).', 'error');
+        renderAdminDashboard();
+        return;
+      }
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+      room.price = Math.round(parsed);
+      saveState();
+      renderAll();
+      showToast(`Updated ${room.name} rate to $${room.price}/night.`);
+    }
+
+    function updateBookingStatus(bookingId, newStatus) {
+      const booking = bookings.find(b => b.id === bookingId);
+      if (!booking) return;
+      booking.status = newStatus;
+      const room = rooms.find(r => r.id === booking.roomId);
+      if (room) room.available = (newStatus === 'Cancelled');
+      saveState();
+      renderAll();
+      showToast(`Reservation ${bookingId} status changed to ${newStatus}.`);
+    }
+
+    function openAddRoomModal() {
+      const modal = document.getElementById('add-room-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeAddRoomModal() {
+      const modal = document.getElementById('add-room-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleAddRoom(event) {
+      event.preventDefault();
+      const name = document.getElementById('new-room-name').value.trim();
+      const category = document.getElementById('new-room-category').value;
+      const price = parseInt(document.getElementById('new-room-price').value, 10);
+      const maxGuests = parseInt(document.getElementById('new-room-guests').value, 10);
+      const size = parseInt(document.getElementById('new-room-size').value, 10);
+      const image = document.getElementById('new-room-image').value.trim() || FALLBACK_IMAGE;
+      const amenitiesRaw = document.getElementById('new-room-amenities').value;
+      const description = document.getElementById('new-room-desc').value.trim();
+
+      const amenities = amenitiesRaw.split(',').map(a => a.trim()).filter(Boolean);
+      const randomNum = Math.floor(200 + Math.random() * 700);
+
+      rooms.unshift({
+        id: `rm-${randomNum}`,
+        name,
+        category,
+        price,
+        maxGuests,
+        size,
+        available: true,
+        image,
+        amenities: amenities.length ? amenities : ['Luxury Bedding', 'Free Wi-Fi'],
+        description,
+        reviews: [
+          { author: 'Verified Guest', rating: 5.0, date: getRelativeDate(0), comment: 'Brand-new suite with crystal-clear views and spotless comfort!' }
+        ]
+      });
+
+      saveState();
+      closeAddRoomModal();
+      event.target.reset();
+      renderAll();
+      showToast(`Added "${name}" to hotel inventory.`);
+    }
+
+    // Custom Confirm Modal Logic
+    let pendingConfirmCallback = null;
+
+    function openConfirmModal(title, message, onConfirm) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      pendingConfirmCallback = onConfirm;
+
+      const btn = document.getElementById('confirm-action-btn');
+      btn.onclick = () => {
+        if (pendingConfirmCallback) pendingConfirmCallback();
+        closeConfirmModal();
+      };
+
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeConfirmModal() {
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      pendingConfirmCallback = null;
+    }
+
+    function openResetConfirm() {
+      openConfirmModal(
+        'Reset Demo Data?',
+        'This will restore all default rooms, HD photos, prices, promo codes, and sample bookings.',
+        () => {
+          localStorage.removeItem(STORAGE_KEYS.ROOMS);
+          localStorage.removeItem(STORAGE_KEYS.BOOKINGS);
+          localStorage.removeItem(STORAGE_KEYS.PROMOS);
+          initState();
+          resetFilters();
+          renderAll();
+          showToast('Demo data restored to defaults.');
+        }
+      );
+    }
+
+    function renderAll() {
+      renderExploreRooms();
+      renderMyBookings();
+      renderAdminDashboard();
+      lucide.createIcons();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initState();
+      document.getElementById('filter-checkin').value = getRelativeDate(2);
+      document.getElementById('filter-checkout').value = getRelativeDate(4);
+      handleSearchFilter();
+      renderAll();
+    });
+  </script>
+</body>
+</html>
